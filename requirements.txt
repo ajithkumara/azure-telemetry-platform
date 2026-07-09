@@ -1,0 +1,8 @@
+python-dotenv
+Faker
+azure-eventhub-checkpointstoreblob-aio
+azure-core==1.41.0
+azure-eventhub==5.15.1
+azure-storage-blob==12.30.0
+azure-storage-file-datalake==12.25.0
+python-dotenv==1.2.2
