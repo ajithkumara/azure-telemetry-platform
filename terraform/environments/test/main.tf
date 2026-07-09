@@ -1,0 +1,61 @@
+locals {
+  name_suffix              = "${var.project_name}-${var.environment}"
+  name_suffix_alphanumeric = replace(local.name_suffix, "-", "")
+  
+  # Ensure storage account name is valid (lowercase, alphanumeric, max 24 chars)
+  storage_account_name = lower(substr("st${local.name_suffix_alphanumeric}", 0, 24))
+}
+
+module "resource_group" {
+  source       = "../../modules/resource_group"
+  project_name = var.project_name
+  environment  = var.environment
+  location     = var.location
+  tags         = var.tags
+}
+
+module "storage" {
+  source               = "../../modules/storage"
+  resource_group_name  = module.resource_group.name
+  location             = module.resource_group.location
+  tags                 = var.tags
+  storage_account_name = local.storage_account_name
+}
+
+module "eventhub" {
+  source              = "../../modules/eventhub"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+  tags                = var.tags
+  name_suffix         = local.name_suffix
+}
+
+module "databricks" {
+  source              = "../../modules/databricks"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+  tags                = var.tags
+  name_suffix         = local.name_suffix
+}
+
+module "access_connector" {
+  source              = "../../modules/access_connector"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+  tags                = var.tags
+  name_suffix         = local.name_suffix
+}
+
+module "rbac" {
+  source       = "../../modules/rbac"
+  scope        = module.storage.id
+  principal_id = module.access_connector.principal_id
+}
+
+module "monitoring" {
+  source              = "../../modules/monitoring"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+  tags                = var.tags
+  name_suffix         = local.name_suffix
+}
