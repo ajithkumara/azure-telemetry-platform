@@ -17,3 +17,13 @@ logs/
 # OS files
 .DS_Store
 Thumbs.db
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfplan
+
+# Variable files
+terraform.tfvars
+*.auto.tfvars
