@@ -1,21 +1,32 @@
-name: 'Terraform Validation & Planning'
+name: Terraform CI
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
+
   pull_request:
     branches:
       - main
+    paths:
+      - 'terraform/**'
+      - '.github/workflows/**'
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
-  terraform_validation:
-    name: 'Terraform Validate and Plan'
+  terraform:
+    name: Terraform Validation & Plan
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: terraform/environments/dev
+
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -23,37 +34,29 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
     steps:
-      # Checkout the repository
-      - name: Checkout
-        uses: actions/checkout@v3
 
-      # Install the preferred version of Terraform CLI
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.0
+          terraform_version: latest
 
-      # Check format of HCL code
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
 
-      # Initialize and validate dev environment
-      - name: Terraform Init & Validate (Dev)
-        run: |
-          cd terraform/environments/dev
-          terraform init -backend=false
-          terraform validate
+      - name: Terraform Init
+        run: terraform init -backend=false
 
-      # Initialize and validate test environment
-      - name: Terraform Init & Validate (Test)
-        run: |
-          cd terraform/environments/test
-          terraform init -backend=false
-          terraform validate
+      - name: Terraform Validate
+        run: terraform validate
 
-      # Initialize and validate prod environment
-      - name: Terraform Init & Validate (Prod)
-        run: |
-          cd terraform/environments/prod
-          terraform init -backend=false
-          terraform validate
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Upload Terraform Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: terraform/environments/dev/tfplan
