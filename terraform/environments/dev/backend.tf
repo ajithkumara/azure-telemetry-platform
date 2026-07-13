@@ -3,15 +3,10 @@
 # terraform init -migrate-state
 
 terraform {
-  backend "local" {
-    path = "terraform.tfstate"
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform"
+    storage_account_name = "stteraformstateajith2026"
+    container_name       = "terraformstate"
+    key                  = "dev.terraform.tfstate"
   }
-
-  # Example Azure Storage Backend Configuration:
-  # backend "azurerm" {
-  #   resource_group_name  = "rg-terraform-state"
-  #   storage_account_name = "sttfstatedev"
-  #   container_name       = "tfstate"
-  #   key                  = "dev.terraform.tfstate"
-  # }
 }

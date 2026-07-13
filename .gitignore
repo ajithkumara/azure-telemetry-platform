@@ -21,6 +21,7 @@ Thumbs.db
 **/.terraform/*
 *.tfstate
 *.tfstate.*
+.terraform.lock.hcl
 crash.log
 *.tfplan
 
