@@ -42,10 +42,10 @@ jobs:
         with:
           terraform_wrapper: false
 
-      - name: Azure Login
-        uses: azure/login@v2
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      #- name: Azure Login
+      #  uses: azure/login@v2
+      #  with:
+      #    creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
