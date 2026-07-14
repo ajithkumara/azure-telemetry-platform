@@ -59,6 +59,27 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -input=false -out=tfplan
 
+      - name: Install Databricks CLI
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+
+      - name: Validate Databricks Bundle
+        working-directory: databricks
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle validate
+
+      - name: Deploy Databricks Bundle
+        if: github.ref == 'refs/heads/main'
+        working-directory: databricks
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          databricks bundle deploy
+
       - name: Upload Terraform Plan
         uses: actions/upload-artifact@v4
         with:
