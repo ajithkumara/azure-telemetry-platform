@@ -1,0 +1,31 @@
+resources:
+  pipelines:
+    telemetry_dlt_pipeline:
+      name: "Azure Telemetry DLT Pipeline"
+
+      development: true
+      continuous: false
+      photon: false
+
+      libraries:
+        - notebook:
+            path: ../notebooks/bronze.py
+        - notebook:
+            path: ../notebooks/silver.py
+        - notebook:
+            path: ../notebooks/gold.py
+
+      clusters:
+        - label: default
+          num_workers: 2
+          node_type_id: "Standard_DS3_v2"
+          spark_conf:
+            "spark.databricks.delta.preview.enabled": "true"
+
+      configuration:
+        base_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net"
+        bronze_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/bronze"
+        silver_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/silver/telemetry"
+        gold_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/gold/telemetry_kpis"
+
+      storage: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/dlt"
