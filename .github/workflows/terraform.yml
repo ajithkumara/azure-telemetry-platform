@@ -72,6 +72,16 @@ jobs:
         run: |
           curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
 
+      - name: Debug Databricks Authentication
+        working-directory: databricks
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          echo "Host: $DATABRICKS_HOST"
+          echo "Token length: ${#DATABRICKS_TOKEN}"
+          databricks auth describe
+
       - name: Validate Databricks Bundle
         working-directory: databricks
         env:
