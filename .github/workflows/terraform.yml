@@ -78,8 +78,15 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          echo "Host: $DATABRICKS_HOST"
-          echo "Token length: ${#DATABRICKS_TOKEN}"
+          echo "Host=$DATABRICKS_HOST"
+
+          if [ -z "$DATABRICKS_TOKEN" ]; then
+            echo "Token is EMPTY"
+          else
+            echo "Token exists"
+            echo "Token length=${#DATABRICKS_TOKEN}"
+          fi
+
           databricks auth describe
 
       - name: Validate Databricks Bundle

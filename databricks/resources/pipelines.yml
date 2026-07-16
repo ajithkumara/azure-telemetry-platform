@@ -3,6 +3,9 @@ resources:
     telemetry_dlt_pipeline:
       name: "Azure Telemetry DLT Pipeline"
 
+      catalog: dbw_telemetry_dev_7405615682592774
+      target: silver
+
       development: true
       continuous: false
       photon: false
@@ -17,15 +20,16 @@ resources:
 
       clusters:
         - label: default
-          num_workers: 2
-          node_type_id: "Standard_DS3_v2"
+          node_type_id: "Standard_D4s_v5"   # Or "Standard_DS2_v2"
+          num_workers: 0
           spark_conf:
-            "spark.databricks.delta.preview.enabled": "true"
+            spark.databricks.cluster.profile: "singleNode"
+            spark.master: "local[*]"
+          custom_tags:
+            ResourceClass: "SingleNode"
 
       configuration:
         base_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net"
         bronze_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/bronze"
         silver_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/silver/telemetry"
         gold_path: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/gold/telemetry_kpis"
-
-      storage: "abfss://datalake@stmscaidev2026.dfs.core.windows.net/dlt"
