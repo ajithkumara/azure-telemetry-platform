@@ -17,3 +17,13 @@ variable "name_suffix" {
   type        = string
   description = "The suffix for naming resources (e.g. project-env)."
 }
+
+variable "storage_account_name" {
+  description = "The name of the storage account to link via Unity Catalog."
+  type        = string
+}
+
+variable "access_connector_id" {
+  description = "The ID of the Databricks Access Connector."
+  type        = string
+}

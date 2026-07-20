@@ -2,11 +2,12 @@ bundle:
   name: azure-telemetry-platform
 
 include:
-  - resources/jobs.yml
-  - resources/pipelines.yml
+  - bundle/jobs.yml
+  - bundle/pipelines.yml
 
 workspace:
-  host: https://adb-7405615682592774.14.azuredatabricks.net
+  host: https://adb-7405619808999882.2.azuredatabricks.net
+  profile: canada-central-dev
 
 targets:
   dev:

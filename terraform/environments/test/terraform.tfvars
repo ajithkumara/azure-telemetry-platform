@@ -1,6 +1,6 @@
 project_name = "telemetry"
 environment  = "test"
-location     = "eastus"
+location     = "canadacentral"
 
 tags = {
   Project     = "Azure Telemetry Platform"

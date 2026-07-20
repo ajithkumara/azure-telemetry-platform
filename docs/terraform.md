@@ -44,7 +44,7 @@ We use standard inputs to generate predictable resource names, preventing name c
 
 * `project_name` (e.g., `telemetry`)
 * `environment` (e.g., `dev`, `test`, `prod`)
-* `location` (e.g., `eastus`)
+* `location` (e.g., `canadacentral`)
 
 Within the environment `main.tf` files, resource names are derived dynamically to guarantee consistency:
 ```hcl

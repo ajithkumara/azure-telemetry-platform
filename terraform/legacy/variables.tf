@@ -13,7 +13,7 @@ variable "environment" {
 variable "location" {
   type        = string
   description = "The Azure region where resources will be created."
-  default     = "eastus"
+  default     = "canadacentral"
 }
 
 variable "tags" {

@@ -9,3 +9,4 @@ resource "azurerm_databricks_workspace" "databricks" {
 
 # Note: Unity Catalog configurations (Storage Credentials, External Locations, Catalogs, etc.)
 # can be added here using the databricks provider once the workspace is provisioned.
+

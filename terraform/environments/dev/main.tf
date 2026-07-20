@@ -31,11 +31,13 @@ module "eventhub" {
 }
 
 module "databricks" {
-  source              = "../../modules/databricks"
-  resource_group_name = module.resource_group.name
-  location            = module.resource_group.location
-  tags                = var.tags
-  name_suffix         = local.name_suffix
+  source               = "../../modules/databricks"
+  resource_group_name  = module.resource_group.name
+  location             = module.resource_group.location
+  tags                 = var.tags
+  name_suffix          = local.name_suffix
+  storage_account_name = local.storage_account_name
+  access_connector_id  = module.access_connector.id
 }
 
 module "access_connector" {
@@ -59,3 +61,4 @@ module "monitoring" {
   tags                = var.tags
   name_suffix         = local.name_suffix
 }
+

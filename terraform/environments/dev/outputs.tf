@@ -46,6 +46,11 @@ output "databricks_access_connector_id" {
   description = "The ID of the Databricks Access Connector."
 }
 
+output "databricks_workspace_id" {
+  value       = module.databricks.workspace_id
+  description = "The numeric workspace ID of the Databricks workspace."
+}
+
 output "log_analytics_workspace_id" {
   value       = module.monitoring.log_analytics_workspace_id
   description = "The Workspace ID of the Log Analytics workspace."
